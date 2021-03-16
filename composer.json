@@ -1,0 +1,26 @@
+{
+    "name": "yuuan/date",
+    "description": "Representation of date or month",
+    "type": "library",
+    "homepage": "https://github.com/yuuan/date",
+    "authors": [
+        {
+            "name": "yuuAn",
+            "homepage": "https://github.com/yuuan"
+        }
+    ],
+    "require": {
+        "php": ">=7.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Yuuan\\Date\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Yuuan\\Tests\\Date\\": "tests/"
+        }
+    },
+    "license": "MIT"
+}
