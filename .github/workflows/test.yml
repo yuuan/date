@@ -1,0 +1,43 @@
+name: CI
+
+on: [push]
+
+jobs:
+  test:
+    name: Test with ${{ matrix.php-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['7.4', '8.0']
+    steps:
+      - uses: actions/checkout@v2
+      - uses: php-actions/composer@v5
+      - uses: php-actions/phpunit@v2
+        with:
+          php_version: ${{ matrix.php-version }}
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+      - uses: actions/checkout@v2
+      - uses: php-actions/composer@v5
+      - name: Linting
+        run: composer run lint
+
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+      - uses: actions/checkout@v2
+      - uses: php-actions/composer@v5
+      - name: run PHPStan
+        run: composer run phpstan
