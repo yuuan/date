@@ -17,6 +17,10 @@
         "phpstan/phpstan": "^0.12.81",
         "phpunit/phpunit": "^9.5"
     },
+    "scripts": {
+        "fix": "php-cs-fixer fix",
+        "lint": "php-cs-fixer fix --dry-run"
+    },
     "autoload": {
         "psr-4": {
             "Yuuan\\Date\\": "src/"
