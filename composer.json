@@ -19,7 +19,8 @@
     },
     "scripts": {
         "fix": "php-cs-fixer fix",
-        "lint": "php-cs-fixer fix --dry-run"
+        "lint": "php-cs-fixer fix --dry-run",
+        "phpstan": "phpstan analyse"
     },
     "autoload": {
         "psr-4": {
