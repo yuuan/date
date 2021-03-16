@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "php": ">=7.4.0"
+        "php": ">=7.4.0",
+        "nesbot/carbon": "^2.46"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.18",
