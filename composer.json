@@ -11,7 +11,8 @@
     ],
     "require": {
         "php": ">=7.4.0",
-        "nesbot/carbon": "^2.46"
+        "nesbot/carbon": "^2.46",
+        "yuuan/readonly": "^1.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.18",

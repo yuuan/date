@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "14832470bbbdbd31424b6677bd3d8fcf",
+    "content-hash": "5df544f4795653fa8b75859ceb737e20",
     "packages": [
         {
             "name": "nesbot/carbon",
@@ -432,6 +432,52 @@
                 }
             ],
             "time": "2020-09-28T13:05:58+00:00"
+        },
+        {
+            "name": "yuuan/readonly",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yuuan/readonly.git",
+                "reference": "8407b03c0be142aad52dbedf43bccc4800735398"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yuuan/readonly/zipball/8407b03c0be142aad52dbedf43bccc4800735398",
+                "reference": "8407b03c0be142aad52dbedf43bccc4800735398",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.18",
+                "phpstan/phpstan": "^0.12.81",
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Yuuan\\ReadOnly\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "yuuAn",
+                    "homepage": "https://github.com/yuuan"
+                }
+            ],
+            "description": "Trait to define read-only properties",
+            "homepage": "https://github.com/yuuan/readonly",
+            "support": {
+                "issues": "https://github.com/yuuan/readonly/issues",
+                "source": "https://github.com/yuuan/readonly/tree/v1.0.0"
+            },
+            "time": "2021-03-16T04:21:59+00:00"
         }
     ],
     "packages-dev": [
