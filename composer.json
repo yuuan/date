@@ -20,7 +20,8 @@
     "scripts": {
         "fix": "php-cs-fixer fix",
         "lint": "php-cs-fixer fix --dry-run",
-        "phpstan": "phpstan analyse"
+        "phpstan": "phpstan analyse",
+        "test": "phpunit"
     },
     "autoload": {
         "psr-4": {
