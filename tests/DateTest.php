@@ -11,6 +11,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use PHPUnit\Framework\TestCase;
 use Yuuan\Date\Date;
+use Yuuan\Date\Month;
 
 class DateTest extends TestCase
 {
@@ -83,6 +84,16 @@ class DateTest extends TestCase
 
         $this->assertInstanceOf(CarbonImmutable::class, $subject);
         $this->assertSame('2020-10-20 23:59:59', $subject->toDateTimeString());
+    }
+
+    public function testMonth(): void
+    {
+        $instance = new Date(new CarbonImmutable('2020-10-20 10:00:00'));
+
+        $subject = $instance->month();
+
+        $this->assertInstanceOf(Month::class, $subject);
+        $this->assertSame('2020-10', (string) $subject);
     }
 
     public function testToString(): void

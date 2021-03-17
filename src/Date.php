@@ -76,6 +76,14 @@ class Date
     }
 
     /**
+     * Get the month containing this day.
+     */
+    public function month(): Month
+    {
+        return new Month($this->value);
+    }
+
+    /**
      * Convert to string.
      */
     public function __toString(): string
