@@ -33,7 +33,14 @@ class Month
      *
      * @var list<string>
      */
-    protected array $comparison = ['eq', 'ne', 'lt', 'lte', 'gt', 'gte'];
+    protected array $comparison = [
+        'eq',
+        'ne',
+        'lt',
+        'lte',
+        'gt',
+        'gte',
+    ];
 
     /**
      * Create a Month instance.
