@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yuuan\Date;
 
 use Carbon\CarbonImmutable;
+use Carbon\CarbonPeriod;
 use Countable;
 use DateTimeInterface;
 use Generator;
@@ -146,6 +147,27 @@ class DateRange implements IteratorAggregate, Countable
                 yield $date->value->hour($hour);
             }
         }
+    }
+
+    /**
+     * Convert to array.
+     *
+     * @return list<\Yuuan\Date\Date>
+     */
+    public function toArray(): array
+    {
+        return iterator_to_array($this);
+    }
+
+    /**
+     * Convert to CarbonPeriod with CarbonImmutable.
+     */
+    public function toPeriod(): CarbonPeriod
+    {
+        return CarbonPeriod::create(
+            (string) $this->start,
+            (string) $this->end
+        )->setDateClass(CarbonImmutable::class);
     }
 
     /**
