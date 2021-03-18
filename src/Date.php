@@ -134,6 +134,8 @@ class Date
      * Handle dynamic calls to the instance to compare.
      *
      * @return self|bool
+     *
+     * @throws \BadMethodCallException
      */
     public function __call(string $method, array $parameters)
     {
