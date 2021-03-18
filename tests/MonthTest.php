@@ -239,6 +239,7 @@ class MonthTest extends TestCase
     public function provideDateForParse(): array
     {
         return [
+            'Year and month' => ['2020-11', '2020-11'],
             'Date only' => ['2020-11-22', '2020-11'],
             'Slash separated date' => ['2020/11/22', '2020-11'],
             'Date and time' => ['2020-11-22 10:00:00', '2020-11'],
