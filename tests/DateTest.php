@@ -224,12 +224,12 @@ class DateTest extends TestCase
     ): void {
         $instance = new Date($base);
 
-        $this->assertSame($eq, $instance->eq(new Date($compared)));
-        $this->assertSame($ne, $instance->ne(new Date($compared)));
-        $this->assertSame($lt, $instance->lt(new Date($compared)));
-        $this->assertSame($lte, $instance->lte(new Date($compared)));
-        $this->assertSame($gt, $instance->gt(new Date($compared)));
-        $this->assertSame($gte, $instance->gte(new Date($compared)));
+        $this->assertSame($eq, $instance->eq(new Date($compared)), 'eq is not expected');
+        $this->assertSame($ne, $instance->ne(new Date($compared)), 'ne is not expected');
+        $this->assertSame($lt, $instance->lt(new Date($compared)), 'lt is not expected');
+        $this->assertSame($lte, $instance->lte(new Date($compared)), 'lte is not expected');
+        $this->assertSame($gt, $instance->gt(new Date($compared)), 'gt is not expected');
+        $this->assertSame($gte, $instance->gte(new Date($compared)), 'gte is not expected');
     }
 
     public function provideDatesAndExpectedForCompare(): array
@@ -281,15 +281,15 @@ class DateTest extends TestCase
         bool $isSaturday,
         bool $isSunday
     ): void {
-        $this->assertSame($isWeekday, $date->isWeekday());
-        $this->assertSame($isWeekend, $date->isWeekend());
-        $this->assertSame($isMonday, $date->isMonday());
-        $this->assertSame($isTuesday, $date->isTuesday());
-        $this->assertSame($isWednesday, $date->isWednesday());
-        $this->assertSame($isThursday, $date->isThursday());
-        $this->assertSame($isFriday, $date->isFriday());
-        $this->assertSame($isSaturday, $date->isSaturday());
-        $this->assertSame($isSunday, $date->isSunday());
+        $this->assertSame($isWeekday, $date->isWeekday(), 'isWeekday is not expected');
+        $this->assertSame($isWeekend, $date->isWeekend(), 'isWeekend is not expected');
+        $this->assertSame($isMonday, $date->isMonday(), 'isMonday is not expected');
+        $this->assertSame($isTuesday, $date->isTuesday(), 'isTuesday is not expected');
+        $this->assertSame($isWednesday, $date->isWednesday(), 'isWednesday is not expected');
+        $this->assertSame($isThursday, $date->isThursday(), 'isThursday is not expected');
+        $this->assertSame($isFriday, $date->isFriday(), 'isFriday is not expected');
+        $this->assertSame($isSaturday, $date->isSaturday(), 'isSaturday is not expected');
+        $this->assertSame($isSunday, $date->isSunday(), 'isSunday is not expected');
     }
 
     public function provideDateForDetermine_Weekday(): array
@@ -387,7 +387,7 @@ class DateTest extends TestCase
         Date $date,
         bool $isLastOfMonth
     ): void {
-        $this->assertSame($isLastOfMonth, $date->isLastOfMonth());
+        $this->assertSame($isLastOfMonth, $date->isLastOfMonth(), 'isLastOfMonth is not expected');
     }
 
     public function provideDateForDetermine_LastOfMonth(): array

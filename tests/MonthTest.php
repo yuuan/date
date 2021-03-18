@@ -223,12 +223,12 @@ class MonthTest extends TestCase
     ): void {
         $instance = new Month($base);
 
-        $this->assertSame($eq, $instance->eq(new Month($compared)));
-        $this->assertSame($ne, $instance->ne(new Month($compared)));
-        $this->assertSame($lt, $instance->lt(new Month($compared)));
-        $this->assertSame($lte, $instance->lte(new Month($compared)));
-        $this->assertSame($gt, $instance->gt(new Month($compared)));
-        $this->assertSame($gte, $instance->gte(new Month($compared)));
+        $this->assertSame($eq, $instance->eq(new Month($compared)), 'eq is not expected');
+        $this->assertSame($ne, $instance->ne(new Month($compared)), 'ne is not expected');
+        $this->assertSame($lt, $instance->lt(new Month($compared)), 'lt is not expected');
+        $this->assertSame($lte, $instance->lte(new Month($compared)), 'lte is not expected');
+        $this->assertSame($gt, $instance->gt(new Month($compared)), 'gt is not expected');
+        $this->assertSame($gte, $instance->gte(new Month($compared)), 'gte is not expected');
     }
 
     public function provideDatesAndExpectedForCompare(): array
@@ -276,9 +276,9 @@ class MonthTest extends TestCase
     ): void {
         CarbonImmutable::setTestNow('2020-11-22 10:20:30');
 
-        $this->assertSame($isCurrentMonth, $month->isCurrentMonth());
-        $this->assertSame($isNextMonth, $month->isNextMonth());
-        $this->assertSame($isLastMonth, $month->isLastMonth());
+        $this->assertSame($isCurrentMonth, $month->isCurrentMonth(), 'isCurrentMonth is not expected');
+        $this->assertSame($isNextMonth, $month->isNextMonth(), 'isNextMonth is not expected');
+        $this->assertSame($isLastMonth, $month->isLastMonth(), 'isLastMonth is not expected');
     }
 
     public function provideMonthForDetermine_Relative(): array
