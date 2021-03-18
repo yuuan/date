@@ -33,7 +33,38 @@ class Month
      *
      * @var list<string>
      */
-    protected array $comparison = ['eq', 'ne', 'lt', 'lte', 'gt', 'gte'];
+    protected array $comparison = [
+        'eq',
+        'ne',
+        'lt',
+        'lte',
+        'gt',
+        'gte',
+    ];
+
+    /**
+     * Addition and Subtraction methods.
+     *
+     * @var list<string>
+     */
+    protected array $addition = [
+        'addMonth',
+        'addMonths',
+        'subMonth',
+        'subMonths',
+        'addQuarter',
+        'addQuarters',
+        'subQuarter',
+        'subQuarters',
+        'addYear',
+        'addYears',
+        'subYear',
+        'subYears',
+        'addCentury',
+        'addCenturies',
+        'subCentury',
+        'subCenturies',
+    ];
 
     /**
      * Create a Month instance.
@@ -84,6 +115,17 @@ class Month
     }
 
     /**
+     * Convert this month to DateRange.
+     */
+    public function toDateRange(): DateRange
+    {
+        return new DateRange(
+            new Date($this->startOfMonth()),
+            new Date($this->endOfMonth())
+        );
+    }
+
+    /**
      * Convert to string.
      */
     public function __toString(): string
@@ -94,12 +136,18 @@ class Month
     /**
      * Handle dynamic calls to the instance to compare.
      *
-     * @return mixed
+     * @return self|bool
+     *
+     * @throws \BadMethodCallException
      */
     public function __call(string $method, array $parameters)
     {
         if (in_array($method, $this->comparison, true)) {
             return $this->compare($method, ...$parameters);
+        }
+
+        if (in_array($method, $this->addition, true)) {
+            return $this->change($method, ...$parameters);
         }
 
         throw new BadMethodCallException(
@@ -113,6 +161,14 @@ class Month
     protected function compare(string $method, self $month): bool
     {
         return $this->value->$method($month->value);
+    }
+
+    /**
+     * Add using specified method to the current instance.
+     */
+    protected function change(string $method, int $number = 1): self
+    {
+        return new static($this->value->$method($number));
     }
 
     /**

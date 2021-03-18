@@ -107,7 +107,7 @@ class DateTest extends TestCase
     }
 
     /** @dataProvider provideDatesAndExpectedForCompare */
-    public function testEq(
+    public function testCompare(
         CarbonImmutable $base,
         CarbonImmutable $compared,
         bool $eq,
@@ -119,99 +119,12 @@ class DateTest extends TestCase
     ): void {
         $instance = new Date($base);
 
-        $subject = $instance->eq(new Date($compared));
-
-        $this->assertSame($expected = $eq, $subject);
-    }
-
-    /** @dataProvider provideDatesAndExpectedForCompare */
-    public function testNe(
-        CarbonImmutable $base,
-        CarbonImmutable $compared,
-        bool $eq,
-        bool $ne,
-        bool $lt,
-        bool $lte,
-        bool $gt,
-        bool $gte
-    ): void {
-        $instance = new Date($base);
-
-        $subject = $instance->ne(new Date($compared));
-
-        $this->assertSame($expected = $ne, $subject);
-    }
-
-    /** @dataProvider provideDatesAndExpectedForCompare */
-    public function testLt(
-        CarbonImmutable $base,
-        CarbonImmutable $compared,
-        bool $eq,
-        bool $ne,
-        bool $lt,
-        bool $lte,
-        bool $gt,
-        bool $gte
-    ): void {
-        $instance = new Date($base);
-
-        $subject = $instance->lt(new Date($compared));
-
-        $this->assertSame($expected = $lt, $subject);
-    }
-
-    /** @dataProvider provideDatesAndExpectedForCompare */
-    public function testLte(
-        CarbonImmutable $base,
-        CarbonImmutable $compared,
-        bool $eq,
-        bool $ne,
-        bool $lt,
-        bool $lte,
-        bool $gt,
-        bool $gte
-    ): void {
-        $instance = new Date($base);
-
-        $subject = $instance->lte(new Date($compared));
-
-        $this->assertSame($expected = $lte, $subject);
-    }
-
-    /** @dataProvider provideDatesAndExpectedForCompare */
-    public function testGt(
-        CarbonImmutable $base,
-        CarbonImmutable $compared,
-        bool $eq,
-        bool $ne,
-        bool $lt,
-        bool $lte,
-        bool $gt,
-        bool $gte
-    ): void {
-        $instance = new Date($base);
-
-        $subject = $instance->gt(new Date($compared));
-
-        $this->assertSame($expected = $gt, $subject);
-    }
-
-    /** @dataProvider provideDatesAndExpectedForCompare */
-    public function testGte(
-        CarbonImmutable $base,
-        CarbonImmutable $compared,
-        bool $eq,
-        bool $ne,
-        bool $lt,
-        bool $lte,
-        bool $gt,
-        bool $gte
-    ): void {
-        $instance = new Date($base);
-
-        $subject = $instance->gte(new Date($compared));
-
-        $this->assertSame($expected = $gte, $subject);
+        $this->assertSame($eq, $instance->eq(new Date($compared)));
+        $this->assertSame($ne, $instance->ne(new Date($compared)));
+        $this->assertSame($lt, $instance->lt(new Date($compared)));
+        $this->assertSame($lte, $instance->lte(new Date($compared)));
+        $this->assertSame($gt, $instance->gt(new Date($compared)));
+        $this->assertSame($gte, $instance->gte(new Date($compared)));
     }
 
     public function provideDatesAndExpectedForCompare(): array
@@ -247,6 +160,47 @@ class DateTest extends TestCase
                 'gt' => false,
                 'gte' => true,
             ],
+        ];
+    }
+
+    /** @dataProvider provideAdditionMethods */
+    public function testChange(string $method): void
+    {
+        $instance = Date::parse('2020-11-22');
+
+        $subject = $instance->$method(2);
+        $expected = $instance->value->$method(2);
+
+        $this->assertSame($expected->toW3cString(), $subject->value->toW3cString());
+    }
+
+    public function provideAdditionMethods(): array
+    {
+        return [
+            ['method' => 'addDay'],
+            ['method' => 'addDays'],
+            ['method' => 'subDay'],
+            ['method' => 'subDays'],
+            ['method' => 'addWeek'],
+            ['method' => 'addWeeks'],
+            ['method' => 'subWeek'],
+            ['method' => 'subWeeks'],
+            ['method' => 'addMonth'],
+            ['method' => 'addMonths'],
+            ['method' => 'subMonth'],
+            ['method' => 'subMonths'],
+            ['method' => 'addQuarter'],
+            ['method' => 'addQuarters'],
+            ['method' => 'subQuarter'],
+            ['method' => 'subQuarters'],
+            ['method' => 'addYear'],
+            ['method' => 'addYears'],
+            ['method' => 'subYear'],
+            ['method' => 'subYears'],
+            ['method' => 'addCentury'],
+            ['method' => 'addCenturies'],
+            ['method' => 'subCentury'],
+            ['method' => 'subCenturies'],
         ];
     }
 

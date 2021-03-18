@@ -10,6 +10,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use PHPUnit\Framework\TestCase;
+use Yuuan\Date\DateRange;
 use Yuuan\Date\Month;
 
 class MonthTest extends TestCase
@@ -115,6 +116,17 @@ class MonthTest extends TestCase
         ];
     }
 
+    public function testToDateRange(): void
+    {
+        $instance = Month::parse('2020-11-22');
+
+        $subject = $instance->toDateRange();
+
+        $this->assertInstanceOf(DateRange::class, $subject);
+        $this->assertSame('2020-11-01', (string) $subject->start);
+        $this->assertSame('2020-11-30', (string) $subject->end);
+    }
+
     public function testToString(): void
     {
         $instance = new Month(new CarbonImmutable('2020-11-22 10:00:00'));
@@ -126,7 +138,7 @@ class MonthTest extends TestCase
     }
 
     /** @dataProvider provideDatesAndExpectedForCompare */
-    public function testEq(
+    public function testCompare(
         CarbonImmutable $base,
         CarbonImmutable $compared,
         bool $eq,
@@ -138,99 +150,12 @@ class MonthTest extends TestCase
     ): void {
         $instance = new Month($base);
 
-        $subject = $instance->eq(new Month($compared));
-
-        $this->assertSame($expected = $eq, $subject);
-    }
-
-    /** @dataProvider provideDatesAndExpectedForCompare */
-    public function testNe(
-        CarbonImmutable $base,
-        CarbonImmutable $compared,
-        bool $eq,
-        bool $ne,
-        bool $lt,
-        bool $lte,
-        bool $gt,
-        bool $gte
-    ): void {
-        $instance = new Month($base);
-
-        $subject = $instance->ne(new Month($compared));
-
-        $this->assertSame($expected = $ne, $subject);
-    }
-
-    /** @dataProvider provideDatesAndExpectedForCompare */
-    public function testLt(
-        CarbonImmutable $base,
-        CarbonImmutable $compared,
-        bool $eq,
-        bool $ne,
-        bool $lt,
-        bool $lte,
-        bool $gt,
-        bool $gte
-    ): void {
-        $instance = new Month($base);
-
-        $subject = $instance->lt(new Month($compared));
-
-        $this->assertSame($expected = $lt, $subject);
-    }
-
-    /** @dataProvider provideDatesAndExpectedForCompare */
-    public function testLte(
-        CarbonImmutable $base,
-        CarbonImmutable $compared,
-        bool $eq,
-        bool $ne,
-        bool $lt,
-        bool $lte,
-        bool $gt,
-        bool $gte
-    ): void {
-        $instance = new Month($base);
-
-        $subject = $instance->lte(new Month($compared));
-
-        $this->assertSame($expected = $lte, $subject);
-    }
-
-    /** @dataProvider provideDatesAndExpectedForCompare */
-    public function testGt(
-        CarbonImmutable $base,
-        CarbonImmutable $compared,
-        bool $eq,
-        bool $ne,
-        bool $lt,
-        bool $lte,
-        bool $gt,
-        bool $gte
-    ): void {
-        $instance = new Month($base);
-
-        $subject = $instance->gt(new Month($compared));
-
-        $this->assertSame($expected = $gt, $subject);
-    }
-
-    /** @dataProvider provideDatesAndExpectedForCompare */
-    public function testGte(
-        CarbonImmutable $base,
-        CarbonImmutable $compared,
-        bool $eq,
-        bool $ne,
-        bool $lt,
-        bool $lte,
-        bool $gt,
-        bool $gte
-    ): void {
-        $instance = new Month($base);
-
-        $subject = $instance->gte(new Month($compared));
-
-        $this->assertSame($gte, $subject);
+        $this->assertSame($eq, $instance->eq(new Month($compared)));
+        $this->assertSame($ne, $instance->ne(new Month($compared)));
+        $this->assertSame($lt, $instance->lt(new Month($compared)));
+        $this->assertSame($lte, $instance->lte(new Month($compared)));
+        $this->assertSame($gt, $instance->gt(new Month($compared)));
+        $this->assertSame($gte, $instance->gte(new Month($compared)));
     }
 
     public function provideDatesAndExpectedForCompare(): array
@@ -266,6 +191,39 @@ class MonthTest extends TestCase
                 'gt' => false,
                 'gte' => true,
             ],
+        ];
+    }
+
+    /** @dataProvider provideAdditionMethods */
+    public function testChange(string $method): void
+    {
+        $instance = Month::parse('2020-11-22');
+
+        $subject = $instance->$method(2);
+        $expected = $instance->value->$method(2);
+
+        $this->assertSame($expected->toW3cString(), $subject->value->toW3cString());
+    }
+
+    public function provideAdditionMethods(): array
+    {
+        return [
+            ['method' => 'addMonth'],
+            ['method' => 'addMonths'],
+            ['method' => 'subMonth'],
+            ['method' => 'subMonths'],
+            ['method' => 'addQuarter'],
+            ['method' => 'addQuarters'],
+            ['method' => 'subQuarter'],
+            ['method' => 'subQuarters'],
+            ['method' => 'addYear'],
+            ['method' => 'addYears'],
+            ['method' => 'subYear'],
+            ['method' => 'subYears'],
+            ['method' => 'addCentury'],
+            ['method' => 'addCenturies'],
+            ['method' => 'subCentury'],
+            ['method' => 'subCenturies'],
         ];
     }
 
