@@ -159,6 +159,34 @@ class Date
     }
 
     /**
+     * Determines if this instance is the first day of the month.
+     */
+    public function isFirstOfMonth(): bool
+    {
+        return $this->value->day === 1;
+    }
+
+    /**
+     * Determines if this instance is in the past.
+     */
+    public function isPast(): bool
+    {
+        return $this->value->lt(
+            $this->value->nowWithSameTz()->startOfDay()
+        );
+    }
+
+    /**
+     * Determines if this instance is in the future.
+     */
+    public function isFuture(): bool
+    {
+        return $this->value->gt(
+            $this->value->nowWithSameTz()->startOfDay()
+        );
+    }
+
+    /**
      * Get first time of the day.
      */
     public function startOfDay(): CarbonImmutable

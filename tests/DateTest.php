@@ -67,6 +67,82 @@ class DateTest extends TestCase
         $this->assertSame('2020-11-21 00:00:00', $subject->value->toDateTimeString());
     }
 
+    /** @dataProvider provideDateForIsFirstOfMonth */
+    public function testIsFirstOfMonth(Date $date, bool $expected): void
+    {
+        $this->assertSame($expected, $date->isFirstOfMonth());
+    }
+
+    public function provideDateForIsFirstOfMonth(): array
+    {
+        return [
+            'First day of month' => [
+                'date' => Date::parse('2020-11-01'),
+                'expected' => true,
+            ],
+            'Second day of month' => [
+                'date' => Date::parse('2020-11-02'),
+                'expected' => false,
+            ],
+            'Last day of month' => [
+                'date' => Date::parse('2020-11-30'),
+                'expected' => false,
+            ],
+        ];
+    }
+
+    /** @dataProvider provideDateForIsPast */
+    public function testIsPast(Date $date, bool $expected): void
+    {
+        CarbonImmutable::setTestNow('2020-11-22 10:20:30');
+
+        $this->assertSame($expected, $date->isPast());
+    }
+
+    public function provideDateForIsPast(): array
+    {
+        return [
+            'Yesterday' => [
+                'date' => Date::parse('2020-11-21'),
+                'expected' => true,
+            ],
+            'Today' => [
+                'date' => Date::parse('2020-11-22'),
+                'expected' => false,
+            ],
+            'Tomorrow' => [
+                'date' => Date::parse('2020-11-23'),
+                'expected' => false,
+            ],
+        ];
+    }
+
+    /** @dataProvider provideDateForIsFuture */
+    public function testIsFuture(Date $date, bool $expected): void
+    {
+        CarbonImmutable::setTestNow('2020-11-22 10:20:30');
+
+        $this->assertSame($expected, $date->isFuture());
+    }
+
+    public function provideDateForIsFuture(): array
+    {
+        return [
+            'Yesterday' => [
+                'date' => Date::parse('2020-11-21'),
+                'expected' => false,
+            ],
+            'Today' => [
+                'date' => Date::parse('2020-11-22'),
+                'expected' => false,
+            ],
+            'Tomorrow' => [
+                'date' => Date::parse('2020-11-23'),
+                'expected' => true,
+            ],
+        ];
+    }
+
     public function testStartOfDay(): void
     {
         $instance = new Date(new CarbonImmutable('2020-10-20 10:00:00'));

@@ -123,6 +123,26 @@ class Month
     }
 
     /**
+     * Determines if this instance is in the past.
+     */
+    public function isPast(): bool
+    {
+        return $this->value->lt(
+            $this->value->nowWithSameTz()->startOfMonth()
+        );
+    }
+
+    /**
+     * Determines if this instance is in the future.
+     */
+    public function isFuture(): bool
+    {
+        return $this->value->gt(
+            $this->value->nowWithSameTz()->startOfMonth()
+        );
+    }
+
+    /**
      * Get the first date of the month.
      */
     public function getFirstDate(): Date

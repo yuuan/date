@@ -67,6 +67,58 @@ class MonthTest extends TestCase
         $this->assertSame('2020-10-01 00:00:00', $subject->value->toDateTimeString());
     }
 
+    /** @dataProvider provideMonthForIsPast */
+    public function testIsPast(Month $month, bool $expected): void
+    {
+        CarbonImmutable::setTestNow('2020-11-22 10:20:30');
+
+        $this->assertSame($expected, $month->isPast());
+    }
+
+    public function provideMonthForIsPast(): array
+    {
+        return [
+            'Previous month' => [
+                'month' => Month::parse('2020-10'),
+                'expected' => true,
+            ],
+            'Current month' => [
+                'month' => Month::parse('2020-11'),
+                'expected' => false,
+            ],
+            'Next month' => [
+                'month' => Month::parse('2020-12'),
+                'expected' => false,
+            ],
+        ];
+    }
+
+    /** @dataProvider provideMonthForIsFuture */
+    public function testIsFuture(Month $month, bool $expected): void
+    {
+        CarbonImmutable::setTestNow('2020-11-22 10:20:30');
+
+        $this->assertSame($expected, $month->isFuture());
+    }
+
+    public function provideMonthForIsFuture(): array
+    {
+        return [
+            'Previous month' => [
+                'month' => Month::parse('2020-10'),
+                'expected' => false,
+            ],
+            'Current month' => [
+                'month' => Month::parse('2020-11'),
+                'expected' => false,
+            ],
+            'Next month' => [
+                'month' => Month::parse('2020-12'),
+                'expected' => true,
+            ],
+        ];
+    }
+
     public function testGetFirstDate(): void
     {
         $instance = new Month(new CarbonImmutable('2020-11-22 10:00:00'));
