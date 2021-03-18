@@ -296,6 +296,18 @@ class DateRangeTest extends TestCase
         }
     }
 
+    public function testToArray(): void
+    {
+        $instance = new DateRange(Date::parse('2020-10-01'), Date::parse('2020-10-01'));
+
+        $subject = $instance->toArray();
+
+        $this->assertIsArray($subject);
+        $this->assertCount(1, $subject);
+        $this->assertInstanceOf(Date::class, $subject[0]);
+        $this->assertSame('2020-10-01', (string) $subject[0]);
+    }
+
     public function testParse(): void
     {
         $subject = DateRange::parse('2020-01-01', '2020-01-03');

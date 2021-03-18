@@ -149,6 +149,16 @@ class DateRange implements IteratorAggregate, Countable
     }
 
     /**
+     * Convert to array.
+     *
+     * @return list<\Yuuan\Date\Date>
+     */
+    public function toArray(): array
+    {
+        return iterator_to_array($this);
+    }
+
+    /**
      * Create an instance by parsing strings.
      */
     public static function parse(string $start, string $end): self
