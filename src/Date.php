@@ -18,6 +18,31 @@ use Yuuan\ReadOnly\HasReadOnlyProperty;
  * @method  bool  lte(\Yuuan\Date\Date $date)
  * @method  bool  gt(\Yuuan\Date\Date $date)
  * @method  bool  gte(\Yuuan\Date\Date $date)
+ *
+ * @method  \Yuuan\Date\Date  addDay(int $number = 1),
+ * @method  \Yuuan\Date\Date  addDays(int $number = 1),
+ * @method  \Yuuan\Date\Date  subDay(int $number = 1),
+ * @method  \Yuuan\Date\Date  subDays(int $number = 1),
+ * @method  \Yuuan\Date\Date  addWeek(int $number = 1),
+ * @method  \Yuuan\Date\Date  addWeeks(int $number = 1),
+ * @method  \Yuuan\Date\Date  subWeek(int $number = 1),
+ * @method  \Yuuan\Date\Date  subWeeks(int $number = 1),
+ * @method  \Yuuan\Date\Date  addMonth(int $number = 1),
+ * @method  \Yuuan\Date\Date  addMonths(int $number = 1),
+ * @method  \Yuuan\Date\Date  subMonth(int $number = 1),
+ * @method  \Yuuan\Date\Date  subMonths(int $number = 1),
+ * @method  \Yuuan\Date\Date  addQuarter(int $number = 1),
+ * @method  \Yuuan\Date\Date  addQuarters(int $number = 1),
+ * @method  \Yuuan\Date\Date  subQuarter(int $number = 1),
+ * @method  \Yuuan\Date\Date  subQuarters(int $number = 1),
+ * @method  \Yuuan\Date\Date  addYear(int $number = 1),
+ * @method  \Yuuan\Date\Date  addYears(int $number = 1),
+ * @method  \Yuuan\Date\Date  subYear(int $number = 1),
+ * @method  \Yuuan\Date\Date  subYears(int $number = 1),
+ * @method  \Yuuan\Date\Date  addCentury(int $number = 1),
+ * @method  \Yuuan\Date\Date  addCenturies(int $number = 1),
+ * @method  \Yuuan\Date\Date  subCentury(int $number = 1),
+ * @method  \Yuuan\Date\Date  subCenturies(int $number = 1),
  */
 class Date
 {
