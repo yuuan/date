@@ -10,6 +10,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use PHPUnit\Framework\TestCase;
+use Yuuan\Date\Date;
 use Yuuan\Date\DateRange;
 use Yuuan\Date\Month;
 
@@ -64,6 +65,26 @@ class MonthTest extends TestCase
         $this->assertInstanceOf(Month::class, $subject);
         $this->assertSame('2020-10', (string) $subject);
         $this->assertSame('2020-10-01 00:00:00', $subject->value->toDateTimeString());
+    }
+
+    public function testGetFirstDate(): void
+    {
+        $instance = new Month(new CarbonImmutable('2020-11-22 10:00:00'));
+
+        $subject = $instance->getFirstDate();
+
+        $this->assertInstanceOf(Date::class, $subject);
+        $this->assertSame('2020-11-01', (string) $subject);
+    }
+
+    public function testGetLastDate(): void
+    {
+        $instance = new Month(new CarbonImmutable('2020-11-22 10:00:00'));
+
+        $subject = $instance->getLastDate();
+
+        $this->assertInstanceOf(Date::class, $subject);
+        $this->assertSame('2020-11-30', (string) $subject);
     }
 
     public function testStartOfMonth(): void

@@ -108,6 +108,22 @@ class Month
     }
 
     /**
+     * Get the first date of the month.
+     */
+    public function getFirstDate(): Date
+    {
+        return new Date($this->startOfMonth());
+    }
+
+    /**
+     * Get the last date of the month.
+     */
+    public function getLastDate(): Date
+    {
+        return new Date($this->endOfMonth());
+    }
+
+    /**
      * Get first time of the month.
      */
     public function startOfMonth(): CarbonImmutable
@@ -136,10 +152,7 @@ class Month
      */
     public function toDateRange(): DateRange
     {
-        return new DateRange(
-            new Date($this->startOfMonth()),
-            new Date($this->endOfMonth())
-        );
+        return new DateRange($this->getFirstDate(), $this->getLastDate());
     }
 
     /**
