@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yuuan\Tests\Date;
 
 use Carbon\CarbonImmutable;
+use Carbon\CarbonPeriod;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Yuuan\Date\Date;
@@ -306,6 +307,21 @@ class DateRangeTest extends TestCase
         $this->assertCount(1, $subject);
         $this->assertInstanceOf(Date::class, $subject[0]);
         $this->assertSame('2020-10-01', (string) $subject[0]);
+    }
+
+    public function testToPeriod(): void
+    {
+        $instance = new DateRange(Date::parse('2020-10-01'), Date::parse('2020-10-01'));
+
+        $subject = $instance->toPeriod();
+
+        $this->assertInstanceOf(CarbonPeriod::class, $subject);
+
+        $array = iterator_to_array($subject);
+
+        $this->assertCount(1, $array);
+        $this->assertInstanceOf(CarbonImmutable::class, $array[0]);
+        $this->assertSame('2020-10-01 00:00:00', (string) $array[0]);
     }
 
     public function testParse(): void
