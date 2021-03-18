@@ -10,6 +10,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use PHPUnit\Framework\TestCase;
+use Yuuan\Date\DateRange;
 use Yuuan\Date\Month;
 
 class MonthTest extends TestCase
@@ -113,6 +114,17 @@ class MonthTest extends TestCase
                 'expected' => false,
             ],
         ];
+    }
+
+    public function testToDateRange(): void
+    {
+        $instance = Month::parse('2020-11-22');
+
+        $subject = $instance->toDateRange();
+
+        $this->assertInstanceOf(DateRange::class, $subject);
+        $this->assertSame('2020-11-01', (string) $subject->start);
+        $this->assertSame('2020-11-30', (string) $subject->end);
     }
 
     public function testToString(): void

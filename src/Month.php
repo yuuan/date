@@ -115,6 +115,17 @@ class Month
     }
 
     /**
+     * Convert this month to DateRange.
+     */
+    public function toDateRange(): DateRange
+    {
+        return new DateRange(
+            new Date($this->startOfMonth()),
+            new Date($this->endOfMonth())
+        );
+    }
+
+    /**
      * Convert to string.
      */
     public function __toString(): string
