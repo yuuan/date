@@ -126,7 +126,7 @@ class MonthTest extends TestCase
     }
 
     /** @dataProvider provideDatesAndExpectedForCompare */
-    public function testEq(
+    public function testCompare(
         CarbonImmutable $base,
         CarbonImmutable $compared,
         bool $eq,
@@ -138,99 +138,12 @@ class MonthTest extends TestCase
     ): void {
         $instance = new Month($base);
 
-        $subject = $instance->eq(new Month($compared));
-
-        $this->assertSame($expected = $eq, $subject);
-    }
-
-    /** @dataProvider provideDatesAndExpectedForCompare */
-    public function testNe(
-        CarbonImmutable $base,
-        CarbonImmutable $compared,
-        bool $eq,
-        bool $ne,
-        bool $lt,
-        bool $lte,
-        bool $gt,
-        bool $gte
-    ): void {
-        $instance = new Month($base);
-
-        $subject = $instance->ne(new Month($compared));
-
-        $this->assertSame($expected = $ne, $subject);
-    }
-
-    /** @dataProvider provideDatesAndExpectedForCompare */
-    public function testLt(
-        CarbonImmutable $base,
-        CarbonImmutable $compared,
-        bool $eq,
-        bool $ne,
-        bool $lt,
-        bool $lte,
-        bool $gt,
-        bool $gte
-    ): void {
-        $instance = new Month($base);
-
-        $subject = $instance->lt(new Month($compared));
-
-        $this->assertSame($expected = $lt, $subject);
-    }
-
-    /** @dataProvider provideDatesAndExpectedForCompare */
-    public function testLte(
-        CarbonImmutable $base,
-        CarbonImmutable $compared,
-        bool $eq,
-        bool $ne,
-        bool $lt,
-        bool $lte,
-        bool $gt,
-        bool $gte
-    ): void {
-        $instance = new Month($base);
-
-        $subject = $instance->lte(new Month($compared));
-
-        $this->assertSame($expected = $lte, $subject);
-    }
-
-    /** @dataProvider provideDatesAndExpectedForCompare */
-    public function testGt(
-        CarbonImmutable $base,
-        CarbonImmutable $compared,
-        bool $eq,
-        bool $ne,
-        bool $lt,
-        bool $lte,
-        bool $gt,
-        bool $gte
-    ): void {
-        $instance = new Month($base);
-
-        $subject = $instance->gt(new Month($compared));
-
-        $this->assertSame($expected = $gt, $subject);
-    }
-
-    /** @dataProvider provideDatesAndExpectedForCompare */
-    public function testGte(
-        CarbonImmutable $base,
-        CarbonImmutable $compared,
-        bool $eq,
-        bool $ne,
-        bool $lt,
-        bool $lte,
-        bool $gt,
-        bool $gte
-    ): void {
-        $instance = new Month($base);
-
-        $subject = $instance->gte(new Month($compared));
-
-        $this->assertSame($gte, $subject);
+        $this->assertSame($eq, $instance->eq(new Month($compared)));
+        $this->assertSame($ne, $instance->ne(new Month($compared)));
+        $this->assertSame($lt, $instance->lt(new Month($compared)));
+        $this->assertSame($lte, $instance->lte(new Month($compared)));
+        $this->assertSame($gt, $instance->gt(new Month($compared)));
+        $this->assertSame($gte, $instance->gte(new Month($compared)));
     }
 
     public function provideDatesAndExpectedForCompare(): array
