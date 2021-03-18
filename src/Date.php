@@ -148,6 +148,22 @@ class Date
     }
 
     /**
+     * Create a DateRange instance from this instance to specified instance.
+     */
+    public function rangeTo(self $end): DateRange
+    {
+        return new DateRange($this, $end);
+    }
+
+    /**
+     * Create a DateRange instance from specified instance to this instance.
+     */
+    public function rangeFrom(self $start): DateRange
+    {
+        return new DateRange($start, $this);
+    }
+
+    /**
      * Convert to string.
      */
     public function __toString(): string
