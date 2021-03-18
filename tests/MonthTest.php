@@ -215,6 +215,56 @@ class MonthTest extends TestCase
         ];
     }
 
+    /** @dataProvider provideMonthForDetermine_Relative */
+    public function testDetermine_Relative(
+        Month $month,
+        bool $isCurrentMonth,
+        bool $isNextMonth,
+        bool $isLastMonth
+    ): void {
+        CarbonImmutable::setTestNow('2020-11-22 10:20:30');
+
+        $this->assertSame($isCurrentMonth, $month->isCurrentMonth());
+        $this->assertSame($isNextMonth, $month->isNextMonth());
+        $this->assertSame($isLastMonth, $month->isLastMonth());
+    }
+
+    public function provideMonthForDetermine_Relative(): array
+    {
+        return [
+            'Month before previous' => [
+                'month' => Month::parse('2020-09'),
+                'isCurrentMonth' => false,
+                'isNextMonth' => false,
+                'isLastMonth' => false,
+            ],
+            'Previous month' => [
+                'month' => Month::parse('2020-10'),
+                'isCurrentMonth' => false,
+                'isNextMonth' => false,
+                'isLastMonth' => true,
+            ],
+            'Current month' => [
+                'month' => Month::parse('2020-11'),
+                'isCurrentMonth' => true,
+                'isNextMonth' => false,
+                'isLastMonth' => false,
+            ],
+            'Next month' => [
+                'month' => Month::parse('2020-12'),
+                'isCurrentMonth' => false,
+                'isNextMonth' => true,
+                'isLastMonth' => false,
+            ],
+            'Month after next' => [
+                'month' => Month::parse('2021-01'),
+                'isCurrentMonth' => false,
+                'isNextMonth' => false,
+                'isLastMonth' => false,
+            ],
+        ];
+    }
+
     /** @dataProvider provideAdditionMethods */
     public function testChange(string $method): void
     {

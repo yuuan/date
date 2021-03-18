@@ -19,6 +19,10 @@ use Yuuan\ReadOnly\HasReadOnlyProperty;
  * @method  bool  gt(\Yuuan\Date\Month $month)
  * @method  bool  gte(\Yuuan\Date\Month $month)
  *
+ * @method  bool  isCurrentMonth()
+ * @method  bool  isNextMonth()
+ * @method  bool  isLastMonth()
+ *
  * @method  \Yuuan\Date\Date  addMonth(int $number = 1),
  * @method  \Yuuan\Date\Date  addMonths(int $number = 1),
  * @method  \Yuuan\Date\Date  subMonth(int $number = 1),
@@ -57,6 +61,17 @@ class Month
         'lte',
         'gt',
         'gte',
+    ];
+
+    /**
+     * Determination methods.
+     *
+     * @var list<string>
+     */
+    protected array $determination = [
+        'isCurrentMonth',
+        'isNextMonth',
+        'isLastMonth',
     ];
 
     /**
@@ -176,6 +191,10 @@ class Month
             return $this->compare($method, ...$parameters);
         }
 
+        if (in_array($method, $this->determination, true)) {
+            return $this->determine($method);
+        }
+
         if (in_array($method, $this->addition, true)) {
             return $this->change($method, ...$parameters);
         }
@@ -191,6 +210,14 @@ class Month
     protected function compare(string $method, self $month): bool
     {
         return $this->value->$method($month->value);
+    }
+
+    /**
+     * Determine the current instance with the specified method.
+     */
+    protected function determine(string $method): bool
+    {
+        return $this->value->$method();
     }
 
     /**

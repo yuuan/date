@@ -192,6 +192,196 @@ class DateTest extends TestCase
         ];
     }
 
+    /** @dataProvider provideDateForDetermine_Weekday */
+    public function testDetermine_Weekday(
+        Date $date,
+        bool $isWeekday,
+        bool $isWeekend,
+        bool $isMonday,
+        bool $isTuesday,
+        bool $isWednesday,
+        bool $isThursday,
+        bool $isFriday,
+        bool $isSaturday,
+        bool $isSunday
+    ): void {
+        $this->assertSame($isWeekday, $date->isWeekday());
+        $this->assertSame($isWeekend, $date->isWeekend());
+        $this->assertSame($isMonday, $date->isMonday());
+        $this->assertSame($isTuesday, $date->isTuesday());
+        $this->assertSame($isWednesday, $date->isWednesday());
+        $this->assertSame($isThursday, $date->isThursday());
+        $this->assertSame($isFriday, $date->isFriday());
+        $this->assertSame($isSaturday, $date->isSaturday());
+        $this->assertSame($isSunday, $date->isSunday());
+    }
+
+    public function provideDateForDetermine_Weekday(): array
+    {
+        return [
+            'Monday' => [
+                'date' => Date::parse('2020-06-01'),
+                'isWeekday' => true,
+                'isWeekend' => false,
+                'isMonday' => true,
+                'isTuesday' => false,
+                'isWednesday' => false,
+                'isThursday' => false,
+                'isFriday' => false,
+                'isSaturday' => false,
+                'isSunday' => false,
+            ],
+            'Tuesday' => [
+                'date' => Date::parse('2020-06-02'),
+                'isWeekday' => true,
+                'isWeekend' => false,
+                'isMonday' => false,
+                'isTuesday' => true,
+                'isWednesday' => false,
+                'isThursday' => false,
+                'isFriday' => false,
+                'isSaturday' => false,
+                'isSunday' => false,
+            ],
+            'Wednesday' => [
+                'date' => Date::parse('2020-06-03'),
+                'isWeekday' => true,
+                'isWeekend' => false,
+                'isMonday' => false,
+                'isTuesday' => false,
+                'isWednesday' => true,
+                'isThursday' => false,
+                'isFriday' => false,
+                'isSaturday' => false,
+                'isSunday' => false,
+            ],
+            'Thursday' => [
+                'date' => Date::parse('2020-06-04'),
+                'isWeekday' => true,
+                'isWeekend' => false,
+                'isMonday' => false,
+                'isTuesday' => false,
+                'isWednesday' => false,
+                'isThursday' => true,
+                'isFriday' => false,
+                'isSaturday' => false,
+                'isSunday' => false,
+            ],
+            'Friday' => [
+                'date' => Date::parse('2020-06-05'),
+                'isWeekday' => true,
+                'isWeekend' => false,
+                'isMonday' => false,
+                'isTuesday' => false,
+                'isWednesday' => false,
+                'isThursday' => false,
+                'isFriday' => true,
+                'isSaturday' => false,
+                'isSunday' => false,
+            ],
+            'Saturday' => [
+                'date' => Date::parse('2020-06-06'),
+                'isWeekday' => false,
+                'isWeekend' => true,
+                'isMonday' => false,
+                'isTuesday' => false,
+                'isWednesday' => false,
+                'isThursday' => false,
+                'isFriday' => false,
+                'isSaturday' => true,
+                'isSunday' => false,
+            ],
+            'Sunday' => [
+                'date' => Date::parse('2020-06-07'),
+                'isWeekday' => false,
+                'isWeekend' => true,
+                'isMonday' => false,
+                'isTuesday' => false,
+                'isWednesday' => false,
+                'isThursday' => false,
+                'isFriday' => false,
+                'isSaturday' => false,
+                'isSunday' => true,
+            ],
+        ];
+    }
+
+    /** @dataProvider provideDateForDetermine_LastOfMonth */
+    public function testDetermine_LastOfMonth(
+        Date $date,
+        bool $isLastOfMonth
+    ): void {
+        $this->assertSame($isLastOfMonth, $date->isLastOfMonth());
+    }
+
+    public function provideDateForDetermine_LastOfMonth(): array
+    {
+        return [
+            'First day of month' => [
+                'date' => Date::parse('2020-01-01'),
+                'isLastOfMonth' => false,
+            ],
+            'Middle day of month' => [
+                'date' => Date::parse('2020-06-15'),
+                'isLastOfMonth' => false,
+            ],
+            'Last day of month' => [
+                'date' => Date::parse('2020-12-31'),
+                'isLastOfMonth' => true,
+            ],
+        ];
+    }
+
+    /** @dataProvider provideDateForDetermine_Relative */
+    public function testDetermine_Relative(
+        Date $date,
+        bool $isYesterday,
+        bool $isToday,
+        bool $isTomorrow
+    ): void {
+        CarbonImmutable::setTestNow('2020-11-22 00:00:00');
+
+        $this->assertSame($isYesterday, $date->isYesterday(), 'isYesterday is not expected');
+        $this->assertSame($isToday, $date->isToday(), 'isToday is not expected');
+        $this->assertSame($isTomorrow, $date->isTomorrow(), 'isTomorrow is not expected');
+    }
+
+    public function provideDateForDetermine_Relative(): array
+    {
+        return [
+            'Day before yesterday' => [
+                'month' => Date::parse('2020-11-20'),
+                'isYesterday' => false,
+                'isToday' => false,
+                'isTomorrow' => false,
+            ],
+            'Yesterday' => [
+                'month' => Date::parse('2020-11-21'),
+                'isYesterday' => true,
+                'isToday' => false,
+                'isTomorrow' => false,
+            ],
+            'Today' => [
+                'month' => Date::parse('2020-11-22'),
+                'isYesterday' => false,
+                'isToday' => true,
+                'isTomorrow' => false,
+            ],
+            'Tomorrow' => [
+                'month' => Date::parse('2020-11-23'),
+                'isYesterday' => false,
+                'isToday' => false,
+                'isTomorrow' => true,
+            ],
+            'Day after tomorrow' => [
+                'month' => Date::parse('2020-11-24'),
+                'isYesterday' => false,
+                'isToday' => false,
+                'isTomorrow' => false,
+            ],
+        ];
+    }
+
     /** @dataProvider provideAdditionMethods */
     public function testChange(string $method): void
     {

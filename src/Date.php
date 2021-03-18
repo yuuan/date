@@ -19,6 +19,20 @@ use Yuuan\ReadOnly\HasReadOnlyProperty;
  * @method  bool  gt(\Yuuan\Date\Date $date)
  * @method  bool  gte(\Yuuan\Date\Date $date)
  *
+ * @method  bool  isLastOfMonth()
+ * @method  bool  isWeekday()
+ * @method  bool  isWeekend()
+ * @method  bool  isMonday()
+ * @method  bool  isTuesday()
+ * @method  bool  isWednesday()
+ * @method  bool  isThursday()
+ * @method  bool  isFriday()
+ * @method  bool  isSaturday()
+ * @method  bool  isSunday()
+ * @method  bool  isYesterday()
+ * @method  bool  isToday()
+ * @method  bool  isTomorrow()
+ *
  * @method  \Yuuan\Date\Date  addDay(int $number = 1),
  * @method  \Yuuan\Date\Date  addDays(int $number = 1),
  * @method  \Yuuan\Date\Date  subDay(int $number = 1),
@@ -65,6 +79,27 @@ class Date
         'lte',
         'gt',
         'gte',
+    ];
+
+    /**
+     * Determination methods.
+     *
+     * @var list<string>
+     */
+    protected array $determination = [
+        'isLastOfMonth',
+        'isWeekday',
+        'isWeekend',
+        'isMonday',
+        'isTuesday',
+        'isWednesday',
+        'isThursday',
+        'isFriday',
+        'isSaturday',
+        'isSunday',
+        'isYesterday',
+        'isToday',
+        'isTomorrow',
     ];
 
     /**
@@ -184,6 +219,10 @@ class Date
             return $this->compare($method, ...$parameters);
         }
 
+        if (in_array($method, $this->determination, true)) {
+            return $this->determine($method);
+        }
+
         if (in_array($method, $this->addition, true)) {
             return $this->change($method, ...$parameters);
         }
@@ -199,6 +238,14 @@ class Date
     protected function compare(string $method, self $date): bool
     {
         return $this->value->$method($date->value);
+    }
+
+    /**
+     * Determine the current instance with the specified method.
+     */
+    protected function determine(string $method): bool
+    {
+        return $this->value->$method();
     }
 
     /**
