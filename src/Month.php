@@ -23,22 +23,22 @@ use Yuuan\ReadOnly\HasReadOnlyProperty;
  * @method  bool  isNextMonth()
  * @method  bool  isLastMonth()
  *
- * @method  \Yuuan\Date\Date  addMonth(int $number = 1),
- * @method  \Yuuan\Date\Date  addMonths(int $number = 1),
- * @method  \Yuuan\Date\Date  subMonth(int $number = 1),
- * @method  \Yuuan\Date\Date  subMonths(int $number = 1),
- * @method  \Yuuan\Date\Date  addQuarter(int $number = 1),
- * @method  \Yuuan\Date\Date  addQuarters(int $number = 1),
- * @method  \Yuuan\Date\Date  subQuarter(int $number = 1),
- * @method  \Yuuan\Date\Date  subQuarters(int $number = 1),
- * @method  \Yuuan\Date\Date  addYear(int $number = 1),
- * @method  \Yuuan\Date\Date  addYears(int $number = 1),
- * @method  \Yuuan\Date\Date  subYear(int $number = 1),
- * @method  \Yuuan\Date\Date  subYears(int $number = 1),
- * @method  \Yuuan\Date\Date  addCentury(int $number = 1),
- * @method  \Yuuan\Date\Date  addCenturies(int $number = 1),
- * @method  \Yuuan\Date\Date  subCentury(int $number = 1),
- * @method  \Yuuan\Date\Date  subCenturies(int $number = 1),
+ * @method  \Yuuan\Date\Month  addMonth(int $number = 1)
+ * @method  \Yuuan\Date\Month  addMonths(int $number = 1)
+ * @method  \Yuuan\Date\Month  subMonth(int $number = 1)
+ * @method  \Yuuan\Date\Month  subMonths(int $number = 1)
+ * @method  \Yuuan\Date\Month  addQuarter(int $number = 1)
+ * @method  \Yuuan\Date\Month  addQuarters(int $number = 1)
+ * @method  \Yuuan\Date\Month  subQuarter(int $number = 1)
+ * @method  \Yuuan\Date\Month  subQuarters(int $number = 1)
+ * @method  \Yuuan\Date\Month  addYear(int $number = 1)
+ * @method  \Yuuan\Date\Month  addYears(int $number = 1)
+ * @method  \Yuuan\Date\Month  subYear(int $number = 1)
+ * @method  \Yuuan\Date\Month  subYears(int $number = 1)
+ * @method  \Yuuan\Date\Month  addCentury(int $number = 1)
+ * @method  \Yuuan\Date\Month  addCenturies(int $number = 1)
+ * @method  \Yuuan\Date\Month  subCentury(int $number = 1)
+ * @method  \Yuuan\Date\Month  subCenturies(int $number = 1)
  */
 class Month
 {
