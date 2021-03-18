@@ -43,6 +43,38 @@ class Date
     ];
 
     /**
+     * Addition and Subtraction methods.
+     *
+     * @var list<string>
+     */
+    protected array $addition = [
+        'addDay',
+        'addDays',
+        'subDay',
+        'subDays',
+        'addWeek',
+        'addWeeks',
+        'subWeek',
+        'subWeeks',
+        'addMonth',
+        'addMonths',
+        'subMonth',
+        'subMonths',
+        'addQuarter',
+        'addQuarters',
+        'subQuarter',
+        'subQuarters',
+        'addYear',
+        'addYears',
+        'subYear',
+        'subYears',
+        'addCentury',
+        'addCenturies',
+        'subCentury',
+        'subCenturies',
+    ];
+
+    /**
      * Create a Date instance.
      */
     public function __construct(DateTimeInterface $date)
@@ -101,12 +133,16 @@ class Date
     /**
      * Handle dynamic calls to the instance to compare.
      *
-     * @return bool
+     * @return self|bool
      */
     public function __call(string $method, array $parameters)
     {
         if (in_array($method, $this->comparison, true)) {
             return $this->compare($method, ...$parameters);
+        }
+
+        if (in_array($method, $this->addition, true)) {
+            return $this->change($method, ...$parameters);
         }
 
         throw new BadMethodCallException(
@@ -120,6 +156,14 @@ class Date
     protected function compare(string $method, self $date): bool
     {
         return $this->value->$method($date->value);
+    }
+
+    /**
+     * Add using specified method to the current instance.
+     */
+    protected function change(string $method, int $number = 1): self
+    {
+        return new static($this->value->$method($number));
     }
 
     /**

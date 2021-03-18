@@ -182,6 +182,39 @@ class MonthTest extends TestCase
         ];
     }
 
+    /** @dataProvider provideAdditionMethods */
+    public function testChange(string $method): void
+    {
+        $instance = Month::parse('2020-11-22');
+
+        $subject = $instance->$method(2);
+        $expected = $instance->value->$method(2);
+
+        $this->assertSame($expected->toW3cString(), $subject->value->toW3cString());
+    }
+
+    public function provideAdditionMethods(): array
+    {
+        return [
+            ['method' => 'addMonth'],
+            ['method' => 'addMonths'],
+            ['method' => 'subMonth'],
+            ['method' => 'subMonths'],
+            ['method' => 'addQuarter'],
+            ['method' => 'addQuarters'],
+            ['method' => 'subQuarter'],
+            ['method' => 'subQuarters'],
+            ['method' => 'addYear'],
+            ['method' => 'addYears'],
+            ['method' => 'subYear'],
+            ['method' => 'subYears'],
+            ['method' => 'addCentury'],
+            ['method' => 'addCenturies'],
+            ['method' => 'subCentury'],
+            ['method' => 'subCenturies'],
+        ];
+    }
+
     /** @dataProvider provideDateForParse */
     public function testParse(string $date, string $expected): void
     {
