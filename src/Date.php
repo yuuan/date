@@ -19,30 +19,44 @@ use Yuuan\ReadOnly\HasReadOnlyProperty;
  * @method  bool  gt(\Yuuan\Date\Date $date)
  * @method  bool  gte(\Yuuan\Date\Date $date)
  *
- * @method  \Yuuan\Date\Date  addDay(int $number = 1),
- * @method  \Yuuan\Date\Date  addDays(int $number = 1),
- * @method  \Yuuan\Date\Date  subDay(int $number = 1),
- * @method  \Yuuan\Date\Date  subDays(int $number = 1),
- * @method  \Yuuan\Date\Date  addWeek(int $number = 1),
- * @method  \Yuuan\Date\Date  addWeeks(int $number = 1),
- * @method  \Yuuan\Date\Date  subWeek(int $number = 1),
- * @method  \Yuuan\Date\Date  subWeeks(int $number = 1),
- * @method  \Yuuan\Date\Date  addMonth(int $number = 1),
- * @method  \Yuuan\Date\Date  addMonths(int $number = 1),
- * @method  \Yuuan\Date\Date  subMonth(int $number = 1),
- * @method  \Yuuan\Date\Date  subMonths(int $number = 1),
- * @method  \Yuuan\Date\Date  addQuarter(int $number = 1),
- * @method  \Yuuan\Date\Date  addQuarters(int $number = 1),
- * @method  \Yuuan\Date\Date  subQuarter(int $number = 1),
- * @method  \Yuuan\Date\Date  subQuarters(int $number = 1),
- * @method  \Yuuan\Date\Date  addYear(int $number = 1),
- * @method  \Yuuan\Date\Date  addYears(int $number = 1),
- * @method  \Yuuan\Date\Date  subYear(int $number = 1),
- * @method  \Yuuan\Date\Date  subYears(int $number = 1),
- * @method  \Yuuan\Date\Date  addCentury(int $number = 1),
- * @method  \Yuuan\Date\Date  addCenturies(int $number = 1),
- * @method  \Yuuan\Date\Date  subCentury(int $number = 1),
- * @method  \Yuuan\Date\Date  subCenturies(int $number = 1),
+ * @method  bool  isLastOfMonth()
+ * @method  bool  isWeekday()
+ * @method  bool  isWeekend()
+ * @method  bool  isMonday()
+ * @method  bool  isTuesday()
+ * @method  bool  isWednesday()
+ * @method  bool  isThursday()
+ * @method  bool  isFriday()
+ * @method  bool  isSaturday()
+ * @method  bool  isSunday()
+ * @method  bool  isYesterday()
+ * @method  bool  isToday()
+ * @method  bool  isTomorrow()
+ *
+ * @method  \Yuuan\Date\Date  addDay(int $number = 1)
+ * @method  \Yuuan\Date\Date  addDays(int $number = 1)
+ * @method  \Yuuan\Date\Date  subDay(int $number = 1)
+ * @method  \Yuuan\Date\Date  subDays(int $number = 1)
+ * @method  \Yuuan\Date\Date  addWeek(int $number = 1)
+ * @method  \Yuuan\Date\Date  addWeeks(int $number = 1)
+ * @method  \Yuuan\Date\Date  subWeek(int $number = 1)
+ * @method  \Yuuan\Date\Date  subWeeks(int $number = 1)
+ * @method  \Yuuan\Date\Date  addMonth(int $number = 1)
+ * @method  \Yuuan\Date\Date  addMonths(int $number = 1)
+ * @method  \Yuuan\Date\Date  subMonth(int $number = 1)
+ * @method  \Yuuan\Date\Date  subMonths(int $number = 1)
+ * @method  \Yuuan\Date\Date  addQuarter(int $number = 1)
+ * @method  \Yuuan\Date\Date  addQuarters(int $number = 1)
+ * @method  \Yuuan\Date\Date  subQuarter(int $number = 1)
+ * @method  \Yuuan\Date\Date  subQuarters(int $number = 1)
+ * @method  \Yuuan\Date\Date  addYear(int $number = 1)
+ * @method  \Yuuan\Date\Date  addYears(int $number = 1)
+ * @method  \Yuuan\Date\Date  subYear(int $number = 1)
+ * @method  \Yuuan\Date\Date  subYears(int $number = 1)
+ * @method  \Yuuan\Date\Date  addCentury(int $number = 1)
+ * @method  \Yuuan\Date\Date  addCenturies(int $number = 1)
+ * @method  \Yuuan\Date\Date  subCentury(int $number = 1)
+ * @method  \Yuuan\Date\Date  subCenturies(int $number = 1)
  */
 class Date
 {
@@ -65,6 +79,27 @@ class Date
         'lte',
         'gt',
         'gte',
+    ];
+
+    /**
+     * Determination methods.
+     *
+     * @var list<string>
+     */
+    protected array $determination = [
+        'isLastOfMonth',
+        'isWeekday',
+        'isWeekend',
+        'isMonday',
+        'isTuesday',
+        'isWednesday',
+        'isThursday',
+        'isFriday',
+        'isSaturday',
+        'isSunday',
+        'isYesterday',
+        'isToday',
+        'isTomorrow',
     ];
 
     /**
@@ -121,6 +156,34 @@ class Date
     public function prev(): self
     {
         return new static($this->value->subDay());
+    }
+
+    /**
+     * Determines if this instance is the first day of the month.
+     */
+    public function isFirstOfMonth(): bool
+    {
+        return $this->value->day === 1;
+    }
+
+    /**
+     * Determines if this instance is in the past.
+     */
+    public function isPast(): bool
+    {
+        return $this->value->lt(
+            $this->value->nowWithSameTz()->startOfDay()
+        );
+    }
+
+    /**
+     * Determines if this instance is in the future.
+     */
+    public function isFuture(): bool
+    {
+        return $this->value->gt(
+            $this->value->nowWithSameTz()->startOfDay()
+        );
     }
 
     /**
@@ -184,6 +247,10 @@ class Date
             return $this->compare($method, ...$parameters);
         }
 
+        if (in_array($method, $this->determination, true)) {
+            return $this->determine($method);
+        }
+
         if (in_array($method, $this->addition, true)) {
             return $this->change($method, ...$parameters);
         }
@@ -199,6 +266,14 @@ class Date
     protected function compare(string $method, self $date): bool
     {
         return $this->value->$method($date->value);
+    }
+
+    /**
+     * Determine the current instance with the specified method.
+     */
+    protected function determine(string $method): bool
+    {
+        return $this->value->$method();
     }
 
     /**

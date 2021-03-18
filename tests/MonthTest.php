@@ -67,6 +67,58 @@ class MonthTest extends TestCase
         $this->assertSame('2020-10-01 00:00:00', $subject->value->toDateTimeString());
     }
 
+    /** @dataProvider provideMonthForIsPast */
+    public function testIsPast(Month $month, bool $expected): void
+    {
+        CarbonImmutable::setTestNow('2020-11-22 10:20:30');
+
+        $this->assertSame($expected, $month->isPast());
+    }
+
+    public function provideMonthForIsPast(): array
+    {
+        return [
+            'Previous month' => [
+                'month' => Month::parse('2020-10'),
+                'expected' => true,
+            ],
+            'Current month' => [
+                'month' => Month::parse('2020-11'),
+                'expected' => false,
+            ],
+            'Next month' => [
+                'month' => Month::parse('2020-12'),
+                'expected' => false,
+            ],
+        ];
+    }
+
+    /** @dataProvider provideMonthForIsFuture */
+    public function testIsFuture(Month $month, bool $expected): void
+    {
+        CarbonImmutable::setTestNow('2020-11-22 10:20:30');
+
+        $this->assertSame($expected, $month->isFuture());
+    }
+
+    public function provideMonthForIsFuture(): array
+    {
+        return [
+            'Previous month' => [
+                'month' => Month::parse('2020-10'),
+                'expected' => false,
+            ],
+            'Current month' => [
+                'month' => Month::parse('2020-11'),
+                'expected' => false,
+            ],
+            'Next month' => [
+                'month' => Month::parse('2020-12'),
+                'expected' => true,
+            ],
+        ];
+    }
+
     public function testGetFirstDate(): void
     {
         $instance = new Month(new CarbonImmutable('2020-11-22 10:00:00'));
@@ -171,12 +223,12 @@ class MonthTest extends TestCase
     ): void {
         $instance = new Month($base);
 
-        $this->assertSame($eq, $instance->eq(new Month($compared)));
-        $this->assertSame($ne, $instance->ne(new Month($compared)));
-        $this->assertSame($lt, $instance->lt(new Month($compared)));
-        $this->assertSame($lte, $instance->lte(new Month($compared)));
-        $this->assertSame($gt, $instance->gt(new Month($compared)));
-        $this->assertSame($gte, $instance->gte(new Month($compared)));
+        $this->assertSame($eq, $instance->eq(new Month($compared)), 'eq is not expected');
+        $this->assertSame($ne, $instance->ne(new Month($compared)), 'ne is not expected');
+        $this->assertSame($lt, $instance->lt(new Month($compared)), 'lt is not expected');
+        $this->assertSame($lte, $instance->lte(new Month($compared)), 'lte is not expected');
+        $this->assertSame($gt, $instance->gt(new Month($compared)), 'gt is not expected');
+        $this->assertSame($gte, $instance->gte(new Month($compared)), 'gte is not expected');
     }
 
     public function provideDatesAndExpectedForCompare(): array
@@ -211,6 +263,56 @@ class MonthTest extends TestCase
                 'lte' => true,
                 'gt' => false,
                 'gte' => true,
+            ],
+        ];
+    }
+
+    /** @dataProvider provideMonthForDetermine_Relative */
+    public function testDetermine_Relative(
+        Month $month,
+        bool $isCurrentMonth,
+        bool $isNextMonth,
+        bool $isLastMonth
+    ): void {
+        CarbonImmutable::setTestNow('2020-11-22 10:20:30');
+
+        $this->assertSame($isCurrentMonth, $month->isCurrentMonth(), 'isCurrentMonth is not expected');
+        $this->assertSame($isNextMonth, $month->isNextMonth(), 'isNextMonth is not expected');
+        $this->assertSame($isLastMonth, $month->isLastMonth(), 'isLastMonth is not expected');
+    }
+
+    public function provideMonthForDetermine_Relative(): array
+    {
+        return [
+            'Month before previous' => [
+                'month' => Month::parse('2020-09'),
+                'isCurrentMonth' => false,
+                'isNextMonth' => false,
+                'isLastMonth' => false,
+            ],
+            'Previous month' => [
+                'month' => Month::parse('2020-10'),
+                'isCurrentMonth' => false,
+                'isNextMonth' => false,
+                'isLastMonth' => true,
+            ],
+            'Current month' => [
+                'month' => Month::parse('2020-11'),
+                'isCurrentMonth' => true,
+                'isNextMonth' => false,
+                'isLastMonth' => false,
+            ],
+            'Next month' => [
+                'month' => Month::parse('2020-12'),
+                'isCurrentMonth' => false,
+                'isNextMonth' => true,
+                'isLastMonth' => false,
+            ],
+            'Month after next' => [
+                'month' => Month::parse('2021-01'),
+                'isCurrentMonth' => false,
+                'isNextMonth' => false,
+                'isLastMonth' => false,
             ],
         ];
     }
