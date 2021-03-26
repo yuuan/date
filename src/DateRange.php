@@ -6,6 +6,7 @@ namespace Yuuan\Date;
 
 use Carbon\CarbonImmutable;
 use Carbon\CarbonPeriod;
+use Carbon\CarbonTimeZone;
 use Countable;
 use DateTimeInterface;
 use Generator;
@@ -62,6 +63,14 @@ class DateRange implements IteratorAggregate, Countable
     public function endOfDays(): CarbonImmutable
     {
         return $this->end->value->endOfDay();
+    }
+
+    /**
+     * Get the current time zone.
+     */
+    public function timezone(): CarbonTimeZone
+    {
+        return $this->start->timezone();
     }
 
     /**

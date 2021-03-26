@@ -6,6 +6,7 @@ namespace Yuuan\Tests\Date;
 
 use Carbon\CarbonImmutable;
 use Carbon\CarbonPeriod;
+use Carbon\CarbonTimeZone;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Yuuan\Date\Date;
@@ -60,6 +61,30 @@ class DateRangeTest extends TestCase
 
         $this->assertInstanceOf(CarbonImmutable::class, $subject);
         $this->assertSame('2020-01-02 23:59:59', $subject->toDateTimeString());
+    }
+
+    /** @dataProvider provideTimeZones */
+    public function testTimezone(string $timezone): void
+    {
+        $range = new DateRange(
+            new Date(new CarbonImmutable('2020-02-01', $timezone)),
+            new Date(new CarbonImmutable('2020-02-29', $timezone))
+        );
+
+        $this->assertSame(
+            (new CarbonTimeZone($timezone))->getName(),
+            $range->timezone()->getName()
+        );
+    }
+
+    public function provideTimeZones(): array
+    {
+        return [
+            ['+9:00'],
+            ['+09:00'],
+            ['Asia/Tokyo'],
+            ['Europe/Helsinki'],
+        ];
     }
 
     /** @dataProvider provideDatesForContains */
@@ -163,7 +188,7 @@ class DateRangeTest extends TestCase
     }
 
     /** @dataProvider provideOverlappedDates */
-    public function testGetOverlappingWhenOverlapped(DateRange $first, DateRange $second, DateRange $expected): void
+    public function testGetOverlapping_WhenOverlapped(DateRange $first, DateRange $second, DateRange $expected): void
     {
         $subject = $first->getOverlapping($second);
 
@@ -209,7 +234,7 @@ class DateRangeTest extends TestCase
     }
 
     /** @dataProvider provideNotOverlappedDates */
-    public function testGetOverlappingWhenNotOverlapped(DateRange $first, DateRange $second): void
+    public function testGetOverlapping_WhenNotOverlapped(DateRange $first, DateRange $second): void
     {
         $this->expectException(RangesDontOverlapException::class);
 
