@@ -6,6 +6,7 @@ namespace Yuuan\Tests\Date;
 
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
+use Carbon\CarbonTimeZone;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -161,6 +162,27 @@ class DateTest extends TestCase
 
         $this->assertInstanceOf(CarbonImmutable::class, $subject);
         $this->assertSame('2020-10-20 23:59:59', $subject->toDateTimeString());
+    }
+
+    /** @dataProvider provideTimeZones */
+    public function testTimezone(string $timezone): void
+    {
+        $date = new Date(new CarbonImmutable('2020-02-01', $timezone));
+
+        $this->assertSame(
+            (new CarbonTimeZone($timezone))->getName(),
+            $date->timezone()->getName()
+        );
+    }
+
+    public function provideTimeZones(): array
+    {
+        return [
+            ['+9:00'],
+            ['+09:00'],
+            ['Asia/Tokyo'],
+            ['Europe/Helsinki'],
+        ];
     }
 
     public function testMonth(): void

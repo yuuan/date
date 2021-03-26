@@ -6,6 +6,7 @@ namespace Yuuan\Date;
 
 use BadMethodCallException;
 use Carbon\CarbonImmutable;
+use Carbon\CarbonTimeZone;
 use DateTimeInterface;
 use Yuuan\ReadOnly\HasReadOnlyProperty;
 
@@ -200,6 +201,14 @@ class Date
     public function endOfDay(): CarbonImmutable
     {
         return $this->value->endOfDay();
+    }
+
+    /**
+     * Get the current time zone.
+     */
+    public function timezone(): CarbonTimeZone
+    {
+        return $this->value->tz;
     }
 
     /**
