@@ -107,6 +107,19 @@ class DateRange implements IteratorAggregate, Countable
     }
 
     /**
+     * Determines if the instance is equal to another.
+     */
+    public function eq(self $target): bool
+    {
+        if ($this->timezone()->getName() !== $target->timezone()->getName()) {
+            throw new DifferentTimeZonesCannotBeComparedException($this, $target);
+        }
+
+        return $this->start->eq($target->start)
+            && $this->end->eq($target->end);
+    }
+
+    /**
      * Get days.
      */
     public function getDays(): int
