@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 use Yuuan\Date\Date;
 use Yuuan\Date\DateRange;
 use Yuuan\Date\DifferentTimeZoneException;
+use Yuuan\Date\DifferentTimeZonesCannotBeComparedException;
 use Yuuan\Date\EndDateIsBeforeStartDateException;
 use Yuuan\Date\RangesDontOverlapException;
 
@@ -252,6 +253,66 @@ class DateRangeTest extends TestCase
                 new DateRange(Date::parse('2020-02-01'), Date::parse('2020-02-29')),
                 new DateRange(Date::parse('2020-01-01'), Date::parse('2020-01-31')),
             ],
+        ];
+    }
+
+    /** @dataProvider provideDateRangesForEq */
+    public function testEq_WhenTimeZoneIsSame(DateRange $first, DateRange $second, bool $expected): void
+    {
+        $this->assertSame($expected, $first->eq($second));
+    }
+
+    public function provideDateRangesForEq(): array
+    {
+        return [
+            'First equal to Second' => [
+                'first' => new DateRange(Date::parse('2020-02-01'), Date::parse('2020-02-29')),
+                'second' => new DateRange(Date::parse('2020-02-01'), Date::parse('2020-02-29')),
+                'expected' => true,
+            ],
+            'Start dates are the same but end dates are different' => [
+                'first' => new DateRange(Date::parse('2020-02-01'), Date::parse('2020-02-10')),
+                'second' => new DateRange(Date::parse('2020-02-01'), Date::parse('2020-02-29')),
+                'expected' => false,
+            ],
+            'Start dates are different but end dates are the same' => [
+                'first' => new DateRange(Date::parse('2020-02-10'), Date::parse('2020-02-29')),
+                'second' => new DateRange(Date::parse('2020-02-01'), Date::parse('2020-02-29')),
+                'expected' => false,
+            ],
+            'Start dates and end dates are different' => [
+                'first' => new DateRange(Date::parse('2020-02-10'), Date::parse('2020-02-29')),
+                'second' => new DateRange(Date::parse('2020-02-01'), Date::parse('2020-02-29')),
+                'expected' => false,
+            ],
+        ];
+    }
+
+    /** @dataProvider provideDifferentTimeZones */
+    public function testEq_WhenTimeZoneIsDifferent(string $firstTimeZone, string $secondTimeZone): void
+    {
+        $this->expectException(DifferentTimeZonesCannotBeComparedException::class);
+
+        $first = new DateRange(
+            new Date(new CarbonImmutable('2020-02-01', $firstTimeZone)),
+            new Date(new CarbonImmutable('2020-02-29', $firstTimeZone))
+        );
+
+        $second = new DateRange(
+            new Date(new CarbonImmutable('2020-02-01', $secondTimeZone)),
+            new Date(new CarbonImmutable('2020-02-29', $secondTimeZone))
+        );
+
+        $first->eq($second);
+    }
+
+    public function provideDifferentTimeZones(): array
+    {
+        return [
+            ['+00:00', 'UTC'],
+            ['+00:00', '+09:00'],
+            ['+09:00', 'Asia/Tokyo'],
+            ['Asia/Tokyo', 'Europe/Helsinki'],
         ];
     }
 
