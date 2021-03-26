@@ -163,7 +163,7 @@ class DateRangeTest extends TestCase
     }
 
     /** @dataProvider provideOverlappedDates */
-    public function testGetOverlappingWhenOverlapped(DateRange $first, DateRange $second, DateRange $expected): void
+    public function testGetOverlapping_WhenOverlapped(DateRange $first, DateRange $second, DateRange $expected): void
     {
         $subject = $first->getOverlapping($second);
 
@@ -209,7 +209,7 @@ class DateRangeTest extends TestCase
     }
 
     /** @dataProvider provideNotOverlappedDates */
-    public function testGetOverlappingWhenNotOverlapped(DateRange $first, DateRange $second): void
+    public function testGetOverlapping_WhenNotOverlapped(DateRange $first, DateRange $second): void
     {
         $this->expectException(RangesDontOverlapException::class);
 
