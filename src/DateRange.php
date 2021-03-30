@@ -14,8 +14,8 @@ use IteratorAggregate;
 use Yuuan\ReadOnly\HasReadOnlyProperty;
 
 /**
- * @property-read  \Carbon\CarbonImmutable  $start
- * @property-read  \Carbon\CarbonImmutable  $end
+ * @property-read  \Yuuan\Date\Date  $start
+ * @property-read  \Yuuan\Date\Date  $end
  * @implements \IteratorAggregate<\Yuuan\Date\Date>
  */
 class DateRange implements IteratorAggregate, Countable
