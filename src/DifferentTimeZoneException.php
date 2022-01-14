@@ -32,4 +32,20 @@ class DifferentTimeZoneException extends InvalidArgumentException
             $end->value->tzName
         );
     }
+
+    /**
+     * Get the start date.
+     */
+    public function getStart(): Date
+    {
+        return $this->start;
+    }
+
+    /**
+     * Get the end date.
+     */
+    public function getEnd(): Date
+    {
+        return $this->end;
+    }
 }
