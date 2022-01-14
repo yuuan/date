@@ -32,4 +32,20 @@ class DifferentTimeZonesCannotBeComparedException extends InvalidArgumentExcepti
             $second->timezone()->getName()
         );
     }
+
+    /**
+     * Get the first date range.
+     */
+    public function getFirst(): DateRange
+    {
+        return $this->first;
+    }
+
+    /**
+     * Get the second date range.
+     */
+    public function getSecond(): DateRange
+    {
+        return $this->second;
+    }
 }
