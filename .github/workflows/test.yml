@@ -11,8 +11,8 @@ jobs:
         php-version: ['7.4', '8.0', '8.1']
     steps:
       - uses: actions/checkout@v2
-      - uses: php-actions/composer@v5
-      - uses: php-actions/phpunit@v2
+      - uses: php-actions/composer@v6
+      - uses: php-actions/phpunit@v3
         with:
           php_version: ${{ matrix.php-version }}
 
@@ -25,7 +25,7 @@ jobs:
         with:
           php-version: '8.1'
       - uses: actions/checkout@v2
-      - uses: php-actions/composer@v5
+      - uses: php-actions/composer@v6
       - name: Linting
         run: composer run lint
 
@@ -38,6 +38,6 @@ jobs:
         with:
           php-version: '8.1'
       - uses: actions/checkout@v2
-      - uses: php-actions/composer@v5
+      - uses: php-actions/composer@v6
       - name: run PHPStan
         run: composer run phpstan
