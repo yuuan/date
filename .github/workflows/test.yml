@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: ['7.4', '8.0']
+        php-version: ['7.4', '8.0', '8.1']
     steps:
       - uses: actions/checkout@v2
       - uses: php-actions/composer@v5
@@ -23,7 +23,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '8.1'
       - uses: actions/checkout@v2
       - uses: php-actions/composer@v5
       - name: Linting
@@ -36,7 +36,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '8.1'
       - uses: actions/checkout@v2
       - uses: php-actions/composer@v5
       - name: run PHPStan
